@@ -11,6 +11,7 @@ class Sprint:
         self.reverse_lookup = {0: "A", 1: "B", 2: "C", 3: "D", 4: "E", 5: "F"}
         self.current = 1
         self.questions = make.make_quiz(question_set, 20, True, True, True)
+        self.responses = []
 
     def quiz_loop(self):
         while self.current <= len(self.questions):
@@ -19,10 +20,11 @@ class Sprint:
             for count, answer in enumerate(q["answers"]):
                 print(f"{self.reverse_lookup[count - 1]}. {answer[1]}")
             response = self.keyed_response(len(q["answers"]), self.parse_answer(input()))
+            self.responses.append(response)
             self.review(response, q["answers"])
             self.current += 1
 
-    def parse_answer(self, answer: str):
+    def parse_selections(self, answer: str):
         """Returns a list of selected answer choice indices."""
         labels = list(set([label.upper() for label in answer if label.upper() in "ABCDEF"]))
         labels.sort()
@@ -46,3 +48,14 @@ class Sprint:
                         print(f"{self.reverse_lookup[i]} should have been selected.")
                 elif not answers[i][0] and response[i]:
                     print(f"{self.reverse_lookup[i]} is not correct.")
+
+    def grade(self):
+        points = 0
+        for i in range(len(self.questions)):
+            correct_answer_count = sum([a[0] for a in self.questions[i]["answers"]])
+            correct_selections = 0
+            for count, response in enumerate(self.responses[i]):
+                if response and self.questions[i]["answers"][count][0]:
+                    correct_selections += 1
+            points += round((1000/len(self.questions)) * (correct_selections/correct_answer_count))
+        return points
