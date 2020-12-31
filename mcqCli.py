@@ -1,15 +1,19 @@
 """
 Simple CLI quiz app
 """
+import json
 import make
 
 
 class Sprint:
 
-    def __init__(self, question_set):
+    def __init__(self, question_set_json):
         self.lookup = {"A": 0, "B": 1, "C": 2, "D": 3, "E": 4, "F": 5}
         self.reverse_lookup = {0: "A", 1: "B", 2: "C", 3: "D", 4: "E", 5: "F"}
         self.current = 1
+        with open(question_set_json) as _f:
+            question_set = json.loads(_f)
+        question_set = [q for q in question_set if self.has_answer(q)]
         self.questions = make.make_quiz(question_set, 20, True, True, True)
         self.responses = []
 
@@ -59,3 +63,7 @@ class Sprint:
                     correct_selections += 1
             points += round((1000/len(self.questions)) * (correct_selections/correct_answer_count))
         return points
+
+    def has_answer(self, question: dict) -> bool:
+        return True if sum([a[0] for a in question["answers"]]) > 0 else False
+
