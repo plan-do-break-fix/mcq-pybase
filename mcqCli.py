@@ -17,8 +17,13 @@ class Sprint:
         self.questions = make.make_quiz(question_set, 20, True, True, True)
         self.responses = []
 
-    def quiz_loop(self):
+    def run(self):
         while self.current <= len(self.questions):
+            self.question()
+            self.current += 1
+        print(self.grade())
+
+    def question(self):
             q = self.questions[self.current - 1]
             print(q["text"])
             for count, answer in enumerate(q["answers"]):
@@ -26,7 +31,6 @@ class Sprint:
             response = self.keyed_response(len(q["answers"]), self.parse_answer(input()))
             self.responses.append(response)
             self.review(response, q["answers"])
-            self.current += 1
 
     def parse_selections(self, answer: str):
         """Returns a list of selected answer choice indices."""
