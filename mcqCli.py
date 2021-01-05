@@ -58,6 +58,7 @@ class Sprint:
                     print(f"{self.reverse_lookup[i]} is not correct.")
 
     def grade(self):
+        """Returns score out of 1000."""
         points = 0
         for i in range(len(self.questions)):
             correct_answer_count = sum([a[0] for a in self.questions[i]["answers"]])
@@ -69,5 +70,6 @@ class Sprint:
         return points
 
     def has_answer(self, question: dict) -> bool:
+        """Check to ensure question has at least one correct answer."""
         return True if sum([a[0] for a in question["answers"]]) > 0 else False
 
