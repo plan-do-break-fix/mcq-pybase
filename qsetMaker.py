@@ -21,5 +21,5 @@ def validate(question: dict) -> bool:
     return True if (question["text"] and
                     question["answers"] and
                     len(question["answers"]) > 1 and
-                    sum([a[0] for a in question["answers"]])
+                    sum([a[0] for a in question["answers"]]) > 0
                     ) else False
