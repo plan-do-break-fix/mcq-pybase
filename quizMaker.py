@@ -2,16 +2,18 @@ from random import shuffle
 from typing import Dict, List
 
 
-def make_quiz(question_set: List[Dict],
+def make_quiz(question_set: Dict,
               length: int,
               shuffle_question_order: bool,
               shuffle_answer_order: bool,
               multichoice_prompts: bool               # Prompts user with number of selections in correct answer
-              ) -> List[Dict]:
-    shuffle(question_set) if shuffle_question_order else None
-    qset = question_set if length == 0 else question_set[:length]
-    qset = [shuffle_answers(q) for q in qset] if shuffle_answer_order else qset
-    qset = [add_multichoice_prompts(q) for q in qset] if multichoice_prompts else qset
+              ) -> Dict:
+    questions = list(question_set.keys())
+    shuffle(questions) if shuffle_question_order else None
+    length = len(question_set.keys()) if length == 0 or length < len(question_set.keys()) else length
+    qset = {question: question_set[question] for question in questions[:length]}
+    qset = {question: shuffle_answers(qset[question]) for question in qset} if shuffle_answer_order else qset
+    qset = {question: add_multichoice_prompts(qset[question]) for question in qset} if multichoice_prompts else qset
     return qset
 
 
