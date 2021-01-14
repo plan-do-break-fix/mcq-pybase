@@ -28,7 +28,7 @@ class Sprint:
             print(q["text"])
             for count, answer in enumerate(q["answers"]):
                 print(f"{self.reverse_lookup[count - 1]}. {answer[1]}")
-            response = self.keyed_response(len(q["answers"]), self.parse_answer(input()))
+            response = self.keyed_response(len(q["answers"]), self.parse_selections(input()))
             self.responses.append(response)
             self.review(response, q["answers"])
 
