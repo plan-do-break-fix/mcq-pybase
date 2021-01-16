@@ -3,7 +3,12 @@ from typing import List
 
 
 def make_qset(questions: List[dict]) -> dict:
-    return {hashlib.md5(json.dumps(q).encode()).hexdigest(): q for q in questions if validate(q)}
+    qset = {}
+    for question in [q for q in questions if validate(q)]:
+        q_id = hashlib.md5(json.dumps(question).encode()).hexdigest()
+        if q_id not in qset.keys():
+            qset[q_id] = question
+    return qset
 
 
 def update_qset(qset: dict, questions: List[dict]) -> dict:
