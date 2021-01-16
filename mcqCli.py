@@ -69,7 +69,4 @@ class Sprint:
             points += round((1000/len(self.questions)) * (correct_selections/correct_answer_count))
         return points
 
-    def has_answer(self, question: dict) -> bool:
-        """Check to ensure question has at least one correct answer."""
-        return True if sum([a[0] for a in question["answers"]]) > 0 else False
 
