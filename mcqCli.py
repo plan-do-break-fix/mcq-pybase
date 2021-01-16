@@ -13,8 +13,7 @@ class Sprint:
         self.current = 1
         with open(question_set_json) as _f:
             question_set = json.loads(_f)
-        question_set = [q for q in question_set if self.has_answer(q)]
-        self.questions = quizMaker.make_quiz(question_set, 20, True, True, True)
+        self.question_ids, self.questions = quizMaker.make_quiz(question_set, 20, True, True, True)
         self.responses = []
 
     def run(self):
