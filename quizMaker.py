@@ -10,7 +10,7 @@ def make_quiz(question_set: Dict,
               ) -> List[List]:
     question_ids = list(question_set.keys())
     shuffle(question_ids) if shuffle_question_order else None
-    length = len(question_ids) if length == 0 or length < len(question_set.keys()) else length
+    length = len(question_ids) if length == 0 or length > len(question_set.keys()) else length
     questions = [question_set[id] for id in question_ids[:length]]
     questions = [shuffle_answers(question) for question in questions] if shuffle_answer_order else questions
     questions = [add_multichoice_prompts(question) for question in questions] if multichoice_prompts else questions
