@@ -12,7 +12,7 @@ class Sprint:
         self.reverse_lookup = {0: "A", 1: "B", 2: "C", 3: "D", 4: "E", 5: "F"}
         self.current = 1
         with open(question_set_json) as _f:
-            question_set = json.loads(_f)
+            question_set = json.load(_f)
         self.question_ids, self.questions = quizMaker.make_quiz(question_set, 20, True, True, True)
         self.responses = []
 
@@ -26,7 +26,7 @@ class Sprint:
             q = self.questions[self.current - 1]
             print(q["text"])
             for count, answer in enumerate(q["answers"]):
-                print(f"{self.reverse_lookup[count - 1]}. {answer[1]}")
+                print(f"{self.reverse_lookup[count]}. {answer[1]}")
             response = self.keyed_response(len(q["answers"]), self.parse_selections(input()))
             self.responses.append(response)
             self.review(response, q["answers"])
